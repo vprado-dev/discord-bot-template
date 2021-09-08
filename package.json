@@ -1,0 +1,38 @@
+{
+  "name": "discord-bot-template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Vinicius Prado <vinicavagna@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/dotenv-safe": "^8.1.2",
+    "@types/node": "^16.4.3",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
+    "eslint": "^7.31.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.1.1",
+    "prettier": "^2.3.2",
+    "ts-node": "^10.2.1",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
+    "dotenv-safe": "^8.2.0"
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "build": "tsc",
+    "dev": "ts-node-dev --no-notify src/index.ts",
+    "docker-build": "./.docker-build",
+    "docker-push": "./.docker-push"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint",
+      "prettier --check"
+    ]
+  }
+}
