@@ -1,0 +1,9 @@
+.git/
+build/
+coverage/
+node_modules/
+scripts/
+test/
+.env
+_.error
+_.log
