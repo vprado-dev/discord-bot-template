@@ -32,6 +32,7 @@
     "start": "node build/index.js",
     "build": "tsc",
     "dev": "ts-node-dev --no-notify src/index.ts",
+    "deploy-commands": "ts-node src/utils/deploy-commands.ts",
     "prepare": "husky install",
     "docker": "./scripts/docker.js"
   },
