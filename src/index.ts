@@ -11,8 +11,7 @@ if (!token) {
   throw new Error("No token is provided");
 }
 
-client.once("ready", () => {
-  console.log(process.env.AUTH_TOKEN);
+client.once("ready", async () => {
   console.log("Ready!");
 });
 
