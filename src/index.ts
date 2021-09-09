@@ -1,6 +1,7 @@
-import { Client, Intents } from "discord.js";
 import dotenv from "dotenv-safe";
 dotenv.config();
+
+import { Client, Intents } from "discord.js";
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
