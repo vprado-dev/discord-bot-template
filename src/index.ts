@@ -17,21 +17,21 @@ const setup = async () => {
   const cmdFiles = await fs.readdir(pathCommands);
   console.log("[#LOG]", `Carregando o total de ${cmdFiles.length} comandos.`);
 
-  for (const file of cmdFiles) {
+  cmdFiles.forEach((file) => {
     try {
-      const command = require(`./commands/${file}`).default;
+      const command = require(path.join(pathCommands, file)).default;
       client.commands.set(command.data.name, command);
     } catch (err) {
       console.error(`[#ERROR] Impossivel executar comando ${file}: ${err}`);
     }
-  }
+  });
 
   const evntFiles = await fs.readdir(pathEvents);
   console.log("[#LOG]", `Carregando o total de ${evntFiles.length} eventos.`);
-  evntFiles.forEach((f) => {
-    const eventName = f.split(".")[0];
+  evntFiles.forEach((file) => {
+    const eventName = file.split(".")[0];
 
-    const event = require(`./events/${f}`).default;
+    const event = require(path.join(pathEvents, file)).default;
 
     client.on(eventName, event.bind(null, client));
   });
