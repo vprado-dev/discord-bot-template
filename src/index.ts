@@ -3,11 +3,11 @@ dotenv.config();
 
 import { Client, Collection, Intents } from "discord.js";
 import fs from "fs-extra";
+import path from "path";
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.commands = new Collection();
-const token = process.env.AUTH_TOKEN;
 
 const cmdFiles = fs.readdirSync("src/commands");
 
@@ -16,26 +16,34 @@ for (const file of cmdFiles) {
   client.commands.set(command.data.name, command);
 }
 
-client.once("ready", async () => {
-  console.log("Ready!");
-});
+const pathCommands = path.join(__dirname, "commands");
 
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
+const pathEvents = path.join(__dirname, "events");
 
-  const command = client.commands.get(interaction.commandName);
+const init = async () => {
+  const cmdFiles = await fs.readdir(pathCommands);
+  console.log("[#LOG]", `Carregando o total de ${cmdFiles.length} comandos.`);
 
-  if (!command) return;
-
-  try {
-    await command.execute(interaction);
-  } catch (error) {
-    console.error(error);
-    return interaction.reply({
-      content: "There was an error while executing this command!",
-      ephemeral: true,
-    });
+  for (const file of cmdFiles) {
+    try {
+      const command = require(`./commands/${file}`).default;
+      client.commands.set(command.data.name, command);
+    } catch (err) {
+      console.error(`[#ERROR] Impossivel executar comando ${file}: ${err}`);
+    }
   }
-});
 
-client.login(token);
+  const evntFiles = await fs.readdir(pathEvents);
+  console.log("[#LOG]", `Carregando o total de ${evntFiles.length} eventos.`);
+  evntFiles.forEach((f) => {
+    const eventName = f.split(".")[0];
+
+    const event = require(`./events/${f}`).default;
+
+    client.on(eventName, event.bind(null, client));
+  });
+
+  client.on("error", (err) => console.error("[#ERROR]", err));
+  client.login(process.env.AUTH_TOKEN);
+};
+init();
