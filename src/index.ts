@@ -13,7 +13,7 @@ const pathCommands = path.join(__dirname, "commands");
 
 const pathEvents = path.join(__dirname, "events");
 
-const init = async () => {
+const setup = async () => {
   const cmdFiles = await fs.readdir(pathCommands);
   console.log("[#LOG]", `Carregando o total de ${cmdFiles.length} comandos.`);
 
@@ -39,4 +39,5 @@ const init = async () => {
   client.on("error", (err) => console.error("[#ERROR]", err));
   client.login(process.env.AUTH_TOKEN);
 };
-init();
+
+setup();

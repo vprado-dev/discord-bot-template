@@ -5,7 +5,13 @@ const ready = async (client: Client) => {
 
   client.user?.setPresence({
     status: "online",
-    activities: [],
+    activities: [
+      {
+        type: "LISTENING",
+        name: "discord.js!",
+        url: "https://github.com/vprado-dev",
+      },
+    ],
   });
 };
 
