@@ -9,13 +9,6 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.commands = new Collection();
 
-const cmdFiles = fs.readdirSync("src/commands");
-
-for (const file of cmdFiles) {
-  const command = require(`./commands/${file}`).default;
-  client.commands.set(command.data.name, command);
-}
-
 const pathCommands = path.join(__dirname, "commands");
 
 const pathEvents = path.join(__dirname, "events");
