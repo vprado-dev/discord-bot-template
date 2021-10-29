@@ -6,28 +6,29 @@ import { Routes } from "discord-api-types/v9";
 import fs from "fs-extra";
 
 const clientId = process.env.CLIENT_ID;
-const guildId = process.env.GUILD_ID;
 const authToken = process.env.AUTH_TOKEN;
 
-const commands: any[] = [];
+export const deployCommands = async (guildId: string) => {
+  const rest = new REST({ version: "9" }).setToken(authToken);
 
-const cmdFiles = fs.readdirSync("src/commands/");
+  const commands: any[] = [];
 
-for (const file of cmdFiles) {
-  const command = require(`../commands/${file}`).default;
-  commands.push(command.data.toJSON());
-}
+  const cmdFiles = fs.readdirSync("src/commands/");
 
-const rest = new REST({ version: "9" }).setToken(authToken);
+  for (const file of cmdFiles) {
+    const command = require(`../commands/${file}`).default;
+    commands.push(command.data.toJSON());
+  }
 
-(async () => {
   try {
     await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
       body: commands,
     });
 
-    console.log("Successfully registered application commands.");
+    console.log(
+      `Successfully registered application commands for guild ->${guildId}`,
+    );
   } catch (error) {
     console.error(error);
   }
-})();
+};
