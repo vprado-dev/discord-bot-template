@@ -1,6 +1,6 @@
-import { Client, Interaction } from "discord.js";
+import { Interaction } from "discord.js";
 
-const interactionCreate = async (client: Client, interaction: Interaction) => {
+const interactionCreate = async (client: any, interaction: Interaction) => {
   if (!interaction.isCommand()) return;
 
   const command = client.commands.get(interaction.commandName);

@@ -11,18 +11,21 @@ const authToken = process.env.AUTH_TOKEN;
 const pathCommands = path.join(__dirname, "..", "commands");
 
 export const deployCommands = async (guildId: string) => {
-  const rest = new REST({ version: "9" }).setToken(authToken);
+  // @ts-ignore
+  const rest = new REST({ version: '10' }).setToken(authToken);
 
-  const commands: any[] = [];
+  const commands = [];
 
-  const cmdFiles = fs.readdirSync(pathCommands);
+  const cmdFiles = await fs.readdir(pathCommands);
 
   for (const file of cmdFiles) {
-    const command = require(path.join(pathCommands, file)).default;
+    const cmdPath = path.join(pathCommands, file);
+    const command = require(cmdPath).default;
     commands.push(command.data.toJSON());
   }
 
   try {
+    // @ts-ignore
     await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
       body: commands,
     });

@@ -6,6 +6,6 @@ declare module "discord.js" {
     execute: (interaction: any) => Promise<any>; // Can be `Promise<SomeType>` if using async
   }
   export interface Client {
-    commands: Collection<unknown, Command>;
+    commands: Collection<unknown, any>
   }
 }

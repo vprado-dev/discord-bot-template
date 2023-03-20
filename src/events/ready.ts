@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { ActivityType, Client } from "discord.js";
 import { deployCommands } from "../utils/deploy-commands";
 
 const ready = async (client: Client) => {
@@ -12,7 +12,7 @@ const ready = async (client: Client) => {
     status: "online",
     activities: [
       {
-        type: "LISTENING",
+        type: ActivityType.Listening,
         name: "discord.js!",
         url: "https://github.com/vprado-dev",
       },

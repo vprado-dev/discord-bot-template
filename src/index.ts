@@ -1,11 +1,11 @@
 import dotenv from "dotenv-safe";
 dotenv.config();
 
-import { Client, Collection, Intents } from "discord.js";
+import { Client, Collection, IntentsBitField } from "discord.js";
 import fs from "fs-extra";
 import path from "path";
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client: any = new Client({ intents: [IntentsBitField.Flags.Guilds] });
 
 client.commands = new Collection();
 
@@ -36,7 +36,7 @@ const setup = async () => {
     client.on(eventName, event.bind(null, client));
   });
 
-  client.on("error", (err) => console.error("[#ERROR]", err));
+  client.on("error", (err: any) => console.error("[#ERROR]", err));
   client.login(process.env.AUTH_TOKEN);
 };
 
